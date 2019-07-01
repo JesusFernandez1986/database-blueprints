@@ -6,6 +6,7 @@ profiles = Blueprint("bp_profile", __name__)
 
 
 @profiles.route("/profile")
+@login_required
 def profile():
     session_token = request.cookies.get("session_token")
     user = db.query(User).filter_by(session_token=session_token).first()
@@ -18,6 +19,7 @@ def profile():
 
 
 @profiles.route("/edit_profile", methods=["GET", "POST"])
+@login_required
 def edit_profile():
     session_token = request.cookies.get("session_token")
     user = db.query(User).filter_by(session_token=session_token).first()
@@ -49,6 +51,7 @@ def edit_profile():
 
 
 @profiles.route("/delete", methods=["GET", "POST"])
+@login_required
 def delete():
     session_token = request.cookies.get("session_token")
     user = db.query(User).filter_by(session_token=session_token).first()
@@ -66,3 +69,4 @@ def delete():
             return resp
         else:
             return redirect(url_for("bp_profile.profile"))
+
