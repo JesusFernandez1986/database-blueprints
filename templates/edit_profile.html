@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Edit your profile{% endblock title %}
+
+{% block content %}
+<h3>Edit your profile</h3>
+
+{% if user.is_active = True %}
+
+    <form method="post" action="/edit_profile">
+        <p>
+            <p>Your name:</p>
+            <input type="text" value="{{ user.name }}" name="profile-name">
+        </p>
+
+        <p>
+            <p>Your email:</p>
+            <input type="email" value="{{ user.email }}" name="profile-email">
+        </p>
+
+        <p>
+            <p>Enter new password</p>
+            <input type="password" value="" name="new_password">
+        </p>
+        <button>Submit</button>
+    </form>
+
+    {% if message1 %}
+        <h3> {{ message1 }}</h3>
+    {% endif %}
+
+    {% if message2 %}
+        <h3> {{ message2 }}</h3>
+    {% endif %}
+
+{% endif %}
+
+{% if message3%}
+
+    {% return (render_template("index.html")
+
+{% endif %}
+
+
+
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Secret Number{% endblock title %}
+
+{% block content %}
+
+        <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <h1>Welcome to secret guess</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                {% if data.user and data.user.secret_number %}        <!---si ya tenemos un usuario registrado y un numero secreto generado:--->
+                     <form method="post" action="/">
+                        <input type="text" name="guess" placeholder="Enter your guess">
+                        <br>
+                        <button type="submit" class="btn btn-secondary btn-lg">Enviar</button>
+                    </form>
+                {% else %}                                  <!---si no lo mandamos a la ruta de login para que se registre--->
+                    <form method="post" action="/login">
+                        <input type="text" name="user-name" placeholder="Enter your name"><br>
+                        <input type="email" name="user-email" placeholder="Enter your email address">
+                        <input type="password" name="user-password" placeholder="Enter your password"><br>
+                        <br>
+                        <button type="submit" class="btn btn-secondary btn-lg">Enviar</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+       <!-- bucle que comprueba si se ha acertado el numero y segun esta comprobacion muestra distintos mensajes por pantalla -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            {% if data.user %}
+                {% if data.result == True %}
+                    <div class="col-7 text center"><h4>Acertaste</h4></div>
+                    {% if data.wrong_guess|length == 0 %}
+                        <h5>Acertaste todos a la primera</h5>
+                    {% else %}
+                        <h5>Has fallado los siguientes numeros:</h5><br>
+                        <ul>
+                        {% for wrong in data.wrong_guess %}
+                            <li>{{ wrong }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% else %}
+                    {% if data.error %}
+                        {% if data.error == 1 %}
+                            <h4>ERROR: El numero no puede ser menor que 1 o mayor que 30</h4>
+                        {% elif data.error == 2 %}
+                            <h4>ERROR: Debe introducir un valor numerico entero</h4>
+                        {% else %}
+                            <h4>ERROR: Desconocido</h4>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if data.hint %}
+                    <h4>No acertaste</h4>
+                    <h6>{{ data.hint }}</h6>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
